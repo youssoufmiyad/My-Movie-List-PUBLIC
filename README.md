@@ -26,7 +26,12 @@
     - Vite, React.
 - Back End :
     - NodeJs, Postman (Pas fondamental pour le fonctionement mais utile)
-## Lancement
+## Lancement du serveur de l'application
+```
+cd server
+node server.js
+```
+## Lancement de l'application
 ```
 cd client
 npm i
