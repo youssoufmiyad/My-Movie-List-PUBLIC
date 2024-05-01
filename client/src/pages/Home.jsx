@@ -3,6 +3,7 @@ import Section from "../components/Section";
 import { getTopRatedMovies, getTrendingMovies } from "../utils/fetchData";
 import SearchBar from "../components/SearchBar";
 
+
 const Home = () => {
 	const [topRatedMovies, settopRatedMovies] = useState([]);
 	const [trendingMovies, setTrendingMovies] = useState([]);

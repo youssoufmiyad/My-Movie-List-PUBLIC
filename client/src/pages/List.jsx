@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import {
 	Stack,
 	Box,
@@ -13,7 +13,8 @@ import {
 	getMoviesInDateRange,
 	getTrendingMovies,
 } from "../utils/fetchData";
-import Card from "../components/Card";
+import CardLoading from "../components/CardLoading";
+const Card = lazy(()=>import("../components/Card"))
 
 const List = () => {
 	const [dateRangedMovies, setDateRangedMovies] = useState([]);
@@ -98,7 +99,7 @@ const List = () => {
 						? trendingMovies.results.map((movie) => {
 								return (
 									<Grid item>
-										<Card movie={movie} />
+										<Suspense fallback={<CardLoading/>}><Card movie={movie}  /><br /></Suspense>
 										<br />
 									</Grid>
 								);
@@ -107,7 +108,7 @@ const List = () => {
 						  ? dateRangedMovies.results.map((movie) => {
 									return (
 										<Grid item>
-											<Card movie={movie} />
+											<Suspense fallback={<CardLoading/>}><Card movie={movie}  /><br /></Suspense>
 											<br />
 										</Grid>
 									);

@@ -52,7 +52,7 @@ const Card = ({ movie }) => {
 					borderBottomRightRadius: "0.5rem",
 				}}
 			>
-				<a href={`./film/${movie.id}`}>{movie.title}</a>
+				<a href={`./film/${movie.id}`}>{movie.title.length >27 ?`${movie.title.substring(0, 26)}...`:movie.title}</a>
 				<hr style={{ width: "160px" }} color="#374151" />
 				<span style={{ textTransform: "none" }}>{movieGenres}</span>
 			</Stack>

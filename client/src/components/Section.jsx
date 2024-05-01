@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, Suspense, lazy } from "react";
 import { Stack, Box } from "@mui/material";
-import Card from "./Card";
+import CardLoading from "./CardLoading";
+
+const Card = lazy(()=>import("./Card"))
 
 const Section = ({ title, movies }) => {
 	if (movies) {
@@ -9,7 +11,7 @@ const Section = ({ title, movies }) => {
 				<h2>{title}</h2>
 				<Box sx={{display:"flex", flexDirection:"row"}}>
 					{movies.map((movie) => {
-						return <><Card movie={movie}  /><br /></>;
+						return <Suspense fallback={<CardLoading/>}><Card movie={movie}  /><br /></Suspense>;
 					})}
 				</Box>
 			</Stack>
