@@ -21,6 +21,8 @@ const List = () => {
 	const [trendingMovies, setTrendingMovies] = useState([]);
 	const [sortMethod, setSortMethod] = useState("");
 
+	const empty_array = [20];
+
 	const [page, setPage] = useState(1);
 
 	const currentDate = new Date();
@@ -34,6 +36,7 @@ const List = () => {
 		.split("T")[0];
 
 	useEffect(() => {
+		setDateRangedMovies([])
 		getMoviesInDateRange(
 			page,
 			dateMin,
@@ -42,6 +45,7 @@ const List = () => {
 			setDateRangedMovies,
 		);
 
+		setTrendingMovies([])
 		getTrendingMovies(page, "week", setTrendingMovies);
 	}, [dateMin, dateMax, page, sortMethod]);
 
@@ -53,7 +57,7 @@ const List = () => {
 		<Stack>
 			<br />
 			<FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-				<InputLabel id="demo-select-small-label">Age</InputLabel>
+				<InputLabel id="demo-select-small-label">Trier par ordre...</InputLabel>
 				<Select
 					labelId="demo-select-small-label"
 					id="demo-select-small"
@@ -113,7 +117,14 @@ const List = () => {
 										</Grid>
 									);
 							  })
-						  : null}
+						  : empty_array.map(()=> {
+							return (
+								<Grid item>
+									<CardLoading  />
+									<br />
+								</Grid>
+							);
+					  })}
 				</Grid>
 			</Box>
 			{trendingMovies.total_pages ? (

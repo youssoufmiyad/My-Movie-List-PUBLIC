@@ -1,6 +1,7 @@
 // API TMDB
+
 export const getMoviesDesc = async (page, setMovies) => {
-	const url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=${page}&sort_by=primary_release_date.desc&api_key=${process.env.API_KEY}`;
+	const url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=${page}&sort_by=primary_release_date.desc&api_key=eb63c1d5148649389ca80f2eaefffecd`;
 	const options = {
 		method: "GET",
 	};
@@ -30,7 +31,7 @@ export const getMoviesInDateRange = async (
 		from != null ? `&primary_release_date.gte=${from}` : ""
 	}${to != null ? `&primary_release_date.lte=${to}` : ""}&sort_by=${
 		order != null | order !== "" ? order : "primary_release_date.desc"
-	}&api_key=${process.env.API_KEY}`;
+	}&api_key=eb63c1d5148649389ca80f2eaefffecd`;
 
 	const options = {
 		method: "GET",
@@ -42,12 +43,12 @@ export const getMoviesInDateRange = async (
 };
 
 export const getOneMovie = async (id, setMovie) => {
-	const url = `https://api.themoviedb.org/3/movie/${id}?language=fr-FR&api_key=${process.env.API_KEY}`;
+	const url = `https://api.themoviedb.org/3/movie/${id}?language=fr-FR&api_key=eb63c1d5148649389ca80f2eaefffecd`;
 	const options = {
 		method: "GET",
 	};
 	console.log(
-		`https://api.themoviedb.org/3/movie/${id}?language=fr-FR&api_key=${process.env.API_KEY}`,
+		`https://api.themoviedb.org/3/movie/${id}?language=fr-FR&api_key=eb63c1d5148649389ca80f2eaefffecd`,
 	);
 	const response = await fetch(url, options);
 	const data = await response.json();
@@ -55,19 +56,20 @@ export const getOneMovie = async (id, setMovie) => {
 	return data;
 };
 
-export const getMovieCredits = async (id, setMovieCredits) => {
-	const url = `https://api.themoviedb.org/3/movie/${id}/credits?language=fr-FR&api_key=${process.env.API_KEY}`;
+export const getMovieCredits = async (id, setCast, setCrew) => {
+	const url = `https://api.themoviedb.org/3/movie/${id}/credits?language=fr-FR&api_key=eb63c1d5148649389ca80f2eaefffecd`;
 	const options = {
 		method: "GET",
 	};
 	const response = await fetch(url, options);
 	const data = await response.json();
-	setMovieCredits(data);
+	setCast(data.cast);
+	setCrew(data.crew);
 	return data;
 };
 
 export const getVideos = async (id, setVideos) => {
-	const url = `https://api.themoviedb.org/3/movie/${id}/videos?language=fr-FR&api_key=${process.env.API_KEY}`;
+	const url = `https://api.themoviedb.org/3/movie/${id}/videos?language=fr-FR&api_key=eb63c1d5148649389ca80f2eaefffecd`;
 	const options = {
 		method: "GET",
 	};
@@ -80,7 +82,7 @@ export const getVideos = async (id, setVideos) => {
 
 export const getGenres = async (setGenres) => {
 	const url =
-		`https://api.themoviedb.org/3/genre/movie/list?language=fr&api_key=${process.env.API_KEY}`;
+		"https://api.themoviedb.org/3/genre/movie/list?language=fr&api_key=eb63c1d5148649389ca80f2eaefffecd";
 	const options = {
 		method: "GET",
 	};
@@ -91,7 +93,7 @@ export const getGenres = async (setGenres) => {
 
 // period doit être "day" ou "week"
 export const getTrendingMovies = async (page, period, setMovies) => {
-	const url = `https://api.themoviedb.org/3/trending/movie/${period}?language=fr-FR&page=${page}&api_key=${process.env.API_KEY}`;
+	const url = `https://api.themoviedb.org/3/trending/movie/${period}?language=fr-FR&page=${page}&api_key=eb63c1d5148649389ca80f2eaefffecd`;
 	const options = {
 		method: "GET",
 	};
@@ -102,7 +104,7 @@ export const getTrendingMovies = async (page, period, setMovies) => {
 };
 
 export const getTopRatedMovies = async (page, setMovies) => {
-	const url = `https://api.themoviedb.org/3/movie/top_rated?language=fr-FR&page=${page}&api_key=${process.env.API_KEY}`;
+	const url = `https://api.themoviedb.org/3/movie/top_rated?language=fr-FR&page=${page}&api_key=eb63c1d5148649389ca80f2eaefffecd`;
 	const options = {
 		method: "GET",
 	};
@@ -113,7 +115,7 @@ export const getTopRatedMovies = async (page, setMovies) => {
 };
 
 export const getSearchResults = async (query, setSearchResults) => {
-	const url = `https://api.themoviedb.org/3/search/multi?query=${query}&language=fr-FR&api_key=${process.env.API_KEY}`;
+	const url = `https://api.themoviedb.org/3/search/multi?query=${query}&language=fr-FR&api_key=eb63c1d5148649389ca80f2eaefffecd`;
 	const options = {
 		method: "GET",
 	};
@@ -125,7 +127,7 @@ export const getSearchResults = async (query, setSearchResults) => {
 };
 
 export const getStar = async (id, setStar) => {
-	const url = `https://api.themoviedb.org/3/person/${id}?language=fr-FR&api_key=${process.env.API_KEY}`;
+	const url = `https://api.themoviedb.org/3/person/${id}?language=fr-FR&api_key=eb63c1d5148649389ca80f2eaefffecd`;
 	const options = {
 		method: "GET",
 	};
@@ -133,6 +135,28 @@ export const getStar = async (id, setStar) => {
 	const data = await response.json();
 	setStar(data);
 	return data;
+};
+
+export const getStarApparitions = async (id, setApparitions) => {
+	const url = `https://api.themoviedb.org/3/person/${id}/combined_credits?language=fr-FR&api_key=eb63c1d5148649389ca80f2eaefffecd`;
+	const options = {
+		method: "GET",
+	};
+	const response = await fetch(url, options);
+	const data = await response.json();
+	setApparitions(data.cast);
+	return data.cast;
+};
+
+export const getStarImages = async (id, setImages) => {
+	const url = `https://api.themoviedb.org/3/person/${id}/images?language=fr-FR&api_key=eb63c1d5148649389ca80f2eaefffecd`;
+	const options = {
+		method: "GET",
+	};
+	const response = await fetch(url, options);
+	const data = await response.json();
+	setImages(data.profiles);
+	return data.profiles;
 };
 
 // API de notre application
