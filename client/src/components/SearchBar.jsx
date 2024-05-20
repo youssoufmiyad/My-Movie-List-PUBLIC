@@ -3,6 +3,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { TextField, IconButton, Typography } from "@mui/material";
 import { getSearchResults } from "../utils/fetchData";
 import { SpaRounded } from "@mui/icons-material";
+import SearchCard from "./SearchCard";
 
 const SearchBar = () => {
 	const [searchStarted, setSearchStarted] = useState(false);
@@ -55,22 +56,8 @@ const SearchBar = () => {
 			</div>
 			{displayResult ? (
 				searchResults.slice(0, 3).map((result) => {
-					if (result.media_type === "person") {
-						return (
-							<>
-								<a href={`../profile/${result.id}`}>{result.name}</a>
-								<br />
-							</>
-						);
-					}
-					if (result.media_type === "movie") {
-						return (
-							<>
-								<a href={`../film/${result.id}`}>{result.title}</a>
-								<br />
-							</>
-						);
-					}
+					return <SearchCard element={result} />
+
 				})
 			) : (
 				()=>{
