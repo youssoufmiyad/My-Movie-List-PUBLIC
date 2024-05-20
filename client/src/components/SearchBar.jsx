@@ -20,6 +20,8 @@ const SearchBar = () => {
 		}
 	}, [searchQuery]);
 
+
+
 	return (
 		<div>
 			<div
@@ -35,9 +37,8 @@ const SearchBar = () => {
 					<TextField
 						onInput={(e) => {
 							setSearchQuery(e.target.value);
-							setDisplayResult(true)
+							setDisplayResult(true);
 						}}
-
 						label="Cherchez un film"
 						placeholder="Nom du film, acteur, réalisateur"
 						size="medium"
@@ -50,22 +51,25 @@ const SearchBar = () => {
 						}}
 					/>
 				</form>
-				<IconButton type="submit" aria-label="search">
+				<IconButton
+					type="submit"
+					aria-label="search"
+					onClick={() => {
+						window.location.assign(`../film?title=${searchQuery}`);
+					}}
+				>
 					<SearchIcon style={{ fill: "#747bff" }} />
 				</IconButton>
 			</div>
-			{displayResult ? (
-				searchResults.slice(0, 3).map((result) => {
-					return <SearchCard element={result} />
-
-				})
-			) : (
-				()=>{
-					if (searchStarted) {
-						<span>Recherche...</span>
-					}
-				}
-			)}
+			{displayResult
+				? searchResults.slice(0, 3).map((result) => {
+						return <SearchCard element={result} />;
+				  })
+				: () => {
+						if (searchStarted) {
+							<span>Recherche...</span>;
+						}
+				  }}
 		</div>
 	);
 };

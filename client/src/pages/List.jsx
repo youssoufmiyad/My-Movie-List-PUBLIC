@@ -11,17 +11,17 @@ import {
 import {
 	getMoviesDesc,
 	getMoviesInDateRange,
+	getSearchResults,
 	getTrendingMovies,
 } from "../utils/fetchData";
-import CardLoading from "../components/CardLoading";
-const Card = lazy(()=>import("../components/Card"))
+import MovieGrid from "../components/MovieGrid";
 
 const List = () => {
 	const [dateRangedMovies, setDateRangedMovies] = useState([]);
 	const [trendingMovies, setTrendingMovies] = useState([]);
+	const [queryMovies, setQueryMovies] = useState([]);
 	const [sortMethod, setSortMethod] = useState("");
 
-	const empty_array = [20];
 
 	const [page, setPage] = useState(1);
 
@@ -36,7 +36,7 @@ const List = () => {
 		.split("T")[0];
 
 	useEffect(() => {
-		setDateRangedMovies([])
+		setDateRangedMovies([]);
 		getMoviesInDateRange(
 			page,
 			dateMin,
@@ -45,13 +45,23 @@ const List = () => {
 			setDateRangedMovies,
 		);
 
-		setTrendingMovies([])
+		setTrendingMovies([]);
 		getTrendingMovies(page, "week", setTrendingMovies);
 	}, [dateMin, dateMax, page, sortMethod]);
 
 	useEffect(() => {
 		console.log(sortMethod);
 	}, [sortMethod]);
+
+	const urlParams = new URLSearchParams(window.location.search);
+	const movieTitle = urlParams.get("title");
+
+	useEffect(() => {
+		if (movieTitle !== "") {
+			getSearchResults(movieTitle, setQueryMovies);
+		}
+		console.log(queryMovies.results);
+	});
 
 	return (
 		<Stack>
@@ -70,63 +80,32 @@ const List = () => {
 					<MenuItem value="">
 						<em>None</em>
 					</MenuItem>
-					<MenuItem value="title.asc">
-						Alphabétique (croissant)
-					</MenuItem>
-					<MenuItem value="title.desc">
-						Alphabétique (décroissant)
-					</MenuItem>
+					<MenuItem value="title.asc">Alphabétique (croissant)</MenuItem>
+					<MenuItem value="title.desc">Alphabétique (décroissant)</MenuItem>
 					<MenuItem value="primary_release_date.asc">
 						Chronologique (croissant)
 					</MenuItem>
 					<MenuItem value="primary_release_date.desc">
 						Chronologique (décroissant)
 					</MenuItem>
-					<MenuItem value="popularity.asc">
-						Popularité (croissant)
-					</MenuItem>
-					<MenuItem value="popularity.desc">
-						Popularité (décroissant)
-					</MenuItem>
-					<MenuItem value="vote_average.asc">
-						Note (croissant)
-					</MenuItem>
-					<MenuItem value="vote_average.desc">
-						Note (décroissant)
-					</MenuItem>
+					<MenuItem value="popularity.asc">Popularité (croissant)</MenuItem>
+					<MenuItem value="popularity.desc">Popularité (décroissant)</MenuItem>
+					<MenuItem value="vote_average.asc">Note (croissant)</MenuItem>
+					<MenuItem value="vote_average.desc">Note (décroissant)</MenuItem>
 				</Select>
 			</FormControl>
 			<br />
-			<Box sx={{ flexGrow: 1 }}>
-				<Grid container justifyContent="center" spacing={5}>
-					{trendingMovies.results && sortMethod === ""
-						? trendingMovies.results.map((movie) => {
-								return (
-									<Grid item>
-										<Suspense fallback={<CardLoading/>}><Card movie={movie}  /><br /></Suspense>
-										<br />
-									</Grid>
-								);
-						  })
-						: dateRangedMovies.results
-						  ? dateRangedMovies.results.map((movie) => {
-									return (
-										<Grid item>
-											<Suspense fallback={<CardLoading/>}><Card movie={movie}  /><br /></Suspense>
-											<br />
-										</Grid>
-									);
-							  })
-						  : empty_array.map(()=> {
-							return (
-								<Grid item>
-									<CardLoading  />
-									<br />
-								</Grid>
-							);
-					  })}
-				</Grid>
-			</Box>
+			<MovieGrid
+				movies={
+					queryMovies.results
+						? queryMovies
+						: trendingMovies.results && sortMethod === ""
+						  ? trendingMovies
+						  : dateRangedMovies.results
+							  ? dateRangedMovies
+							  : []
+				}
+			/>
 			{trendingMovies.total_pages ? (
 				<div style={{ direction: "row" }}>
 					<button
