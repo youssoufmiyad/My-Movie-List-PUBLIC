@@ -182,7 +182,7 @@ const Detail = () => {
 			</div>
 			<br />
 			{videos.results ? (
-				movie.status === "Released" ? (
+				videos.results.length > 1 ? (
 					<Stack sx={{ alignItems: "center", borderTop: "4px #425471 solid" }}>
 						<br />
 						<iframe
