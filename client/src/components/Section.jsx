@@ -15,7 +15,7 @@ const Section = ({ title, movies }) => {
 			>
 				<h2>{title}</h2>
 				<div
-					style={{ overflow: "auto", whiteSpace: "nowrap", width: "1200px" }}
+					style={{ overflow: "auto", width: "1200px" }}
 				>
 					<Box sx={{ display: "flex", flexDirection: "row" }}>
 						{movies.map((movie) => {
