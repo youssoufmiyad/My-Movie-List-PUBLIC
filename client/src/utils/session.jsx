@@ -18,11 +18,9 @@ export const connexion = (user) => {
 	sessionStorage.setItem("rates", user.rates);
 	sessionStorage.setItem("comments", user.comments);
 	sessionStorage.setItem("watchlist", JSON.stringify(user.watchlist));
-	sessionStorage.setItem("favorites", user.favorites)
+	sessionStorage.setItem("favorites", JSON.stringify(user.favorites))
 	
-	console.log("session watchlist : ")
-	console.log(JSON.parse(sessionStorage.getItem("watchlist")))
-	// window.location.replace("../");
+	window.location.replace("../");
 };
 
 export const deconnexion = () => {

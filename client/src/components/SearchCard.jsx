@@ -15,7 +15,7 @@ const SearchCard = ({ element }) => {
                     position:"relative"
 				}}
 			>
-				<a href={`./film/${element.id}`}>
+				<a href={`../film/${element.id}`}>
 					<Box
 						sx={{
 							display: "flex",
