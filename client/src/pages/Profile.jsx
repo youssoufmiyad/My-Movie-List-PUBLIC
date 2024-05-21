@@ -154,7 +154,10 @@ const Profile = () => {
 					</a>
 				</Box>
 
-				<ProfileCaroussel title={"Favorite films"} user={user} />
+				<ProfileCaroussel user={user} />
+				{/* <Section title={"Watchlist"} movies={user.watchlist}/>
+				<br />
+				<Section title={"Favorites"} movies={user.favorites}/> */}
 			</Stack>
 		);
 	}

@@ -30,7 +30,7 @@ router.get("/:id/profilePic", getUser, (req, res) => {
 		bucket.openDownloadStreamByName(`${res.user.username}.jpg`).pipe(res);
 	} catch (err) {
 		console.log(err);
-		console.log("ERROR HANDLED")
+		console.log("ERROR HANDLED");
 		fs.createReadStream("default pfp.jpg").pipe(
 			bucket.openUploadStream(`${req.body.username}.jpg`, {
 				chunkSizeBytes: 1048576,
@@ -89,10 +89,31 @@ router.patch("/:id", getUser, async (req, res) => {
 		res.user.comments = req.body.comments;
 	}
 	if (req.body.watchlist != null) {
-		res.user.watchlist = req.body.watchlist;
+		let isRemoved = false;
+
+		for (w in res.user.watchlist) {
+			if (req.body.watchlist.id === res.user.watchlist[w].id) {
+				res.user.watchlist.splice(w, 1);
+				console.log("REMOVED from watchlist");
+				isRemoved = true;
+			}
+		}
+		if (!isRemoved) {
+			res.user.watchlist.push(req.body.watchlist);
+		}
 	}
 	if (req.body.favorites != null) {
-		res.user.favorites = req.body.favorites;
+		let isRemovedF = false;
+		for (f in res.user.favorites) {
+			if (req.body.favorites.id === res.user.favorites[f].id) {
+				res.user.favorites.splice(f, 1);
+				console.log("REMOVED from favorite");
+				isRemovedF = true;
+			}
+		}
+		if (!isRemovedF) {
+			res.user.favorites.push(req.body.favorites);
+		}
 	}
 	try {
 		const updatedUser = await res.user.save();

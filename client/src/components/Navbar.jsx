@@ -41,6 +41,7 @@ const Navbar = () => {
 					</button>
 					<ProfilePic user={user} size={40} />
 				</>
+				
 			) : (
 				<button
 					type="button"

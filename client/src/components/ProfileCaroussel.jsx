@@ -1,39 +1,71 @@
-import React, { useState, useEffect } from "react";
-import { Stack, Typography } from "@mui/material";
+import React, { useState, useEffect, lazy, Suspense } from "react";
+import { Stack, Typography, Box } from "@mui/material";
+import CardLoading from "./CardLoading";
 
-const ProfileCaroussel = ({ title, user }) => {
-	console.log(user.watchlist.length);
+const Card = lazy(() => import("./Card"));
 
+const ProfileCaroussel = ({ user }) => {
 	return (
-		<Stack sx={{marginTop:"12px"}}>
-			<Typography
-				sx={{
-					marginLeft:"25%",
-					marginBottom:"8px",
-					fontSize: "32px",
-					borderBottom: "2px #425471 solid",
-					width: "50%",
-					textAlign:"left"
-				}}
-			>
-				{title}
-			</Typography>
-			{user.watchlist.map((movie) => {
-				{
-					console.log(movie);
-				}
-				return (
-					<div>
-						<img
-							src={`https://image.tmdb.org/t/p/original/${movie.poster_path}.jpg`}
-							alt="movie cover"
-							width="200px"
-							height="300px"
-						/>
-						<Typography>{movie.original_title}</Typography>
-					</div>
-				);
-			})}
+		<Stack>
+			<Stack sx={{ marginTop: "12px" }}>
+				<Typography
+					sx={{
+						marginLeft: "25%",
+						marginBottom: "8px",
+						fontSize: "32px",
+						borderBottom: "2px #425471 solid",
+						width: "50%",
+						textAlign: "left",
+					}}
+				>
+					Favorite films
+				</Typography>
+				<div style={{ overflow: "auto", width: "1200px" }}>
+					<Box sx={{ display: "flex", flexDirection: "row" }}>
+						{user.favorites.map((movie) => {
+							return (
+								<>
+									<Suspense fallback={<CardLoading />}>
+										<Card movie={movie} />
+										<br />
+									</Suspense>
+									<br />
+								</>
+							);
+						})}
+					</Box>
+				</div>
+			</Stack>
+
+			<Stack sx={{ marginTop: "12px" }}>
+				<Typography
+					sx={{
+						marginLeft: "25%",
+						marginBottom: "8px",
+						fontSize: "32px",
+						borderBottom: "2px #425471 solid",
+						width: "50%",
+						textAlign: "left",
+					}}
+				>
+					In {user.username}'s watchlist
+				</Typography>
+				<div style={{ overflow: "auto", width: "1200px" }}>
+					<Box sx={{ display: "flex", flexDirection: "row" }}>
+						{user.watchlist.map((movie) => {
+							return (
+								<>
+									<Suspense fallback={<CardLoading />}>
+										<Card movie={movie} />
+										<br />
+									</Suspense>
+									<br />
+								</>
+							);
+						})}
+					</Box>
+				</div>
+			</Stack>
 		</Stack>
 	);
 };

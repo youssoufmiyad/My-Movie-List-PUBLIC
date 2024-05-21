@@ -12,76 +12,93 @@ const Detail = () => {
 	const { id } = useParams();
 
 	const [movie, setMovie] = useState([]);
-	let [watchlist, setWatchlist] = useState([]);
+	const [watchlist, setWatchlist] = useState([]);
 	const [favorites, setFavorites] = useState([]);
 	const [videos, setVideos] = useState([]);
+
+
+	const [isInWatchlist, setIsInWatchlist] = useState(false);
+	const [isInFaveList, setIsInFaveList] = useState(false)
+
 
 	useEffect(() => {
 		getOneMovie(id, setMovie);
 		getVideos(id, setVideos);
 	}, [id]);
-	console.log(videos);
+
+	useEffect(() => {
+		setWatchlist(JSON.parse(sessionStorage.getItem("watchlist")))
+		setFavorites(JSON.parse(sessionStorage.getItem("favorites")))
+	}, []);
+
+	useEffect(() => {
+		for (const w in watchlist) {
+			if(watchlist[w].id === movie.id){
+				setIsInWatchlist(true)
+				return
+			}
+			
+		}
+		setIsInWatchlist(false)
+
+	}, [watchlist, movie]);
+
+	useEffect(() => {
+		for (const f in favorites) {
+			if(favorites[f].id === movie.id){
+				setIsInFaveList(true)
+				return
+			}
+			
+		}
+		setIsInFaveList(false)
+
+	}, [favorites, movie]);
+
+
+	useEffect(() => {
+		console.log("isIn :");
+		console.log(isInWatchlist);
+	}, [isInWatchlist]);
 
 	const toggleWatchlist = () => {
-		sessionStorage.getItem("watchlist").length > 0
-			? setWatchlist(sessionStorage.getItem("watchlist"))
-			: true;
-		let idx = -1;
-		if (watchlist) {
-			for (let i = 0; i < watchlist.length; i++) {
-				if (watchlist[i].id === id) {
-					idx = i;
-					break;
-				}
+		let isRemoved = false;
+		for (const w in watchlist) {
+			console.log(`w : ${w}`)
+			if (movie.id === watchlist[w].id) {
+				watchlist.splice(w, 1);
+				isRemoved = true;
+				setIsInWatchlist(false)
 			}
 		}
-
-		if (idx !== -1) {
-			const newWatchlist = watchlist;
-			for (let i = 0; i < watchlist.length; i++) {
-				if (i !== idx) {
-					newWatchlist.push(watchlist[i]);
-				}
-			}
-			watchlist = newWatchlist;
-		} else {
+		if (!isRemoved) {
 			watchlist.push(movie);
+			setIsInWatchlist(true)
 		}
+		updateWatchlist(sessionStorage.getItem("id"), movie);
 
-		// sessionStorage.setItem("watchlist", watchlist);
-		updateWatchlist(sessionStorage.getItem("id"), watchlist);
-		console.log(watchlist);
+		sessionStorage.setItem("watchlist", JSON.stringify(watchlist));
 	};
 
 	const toggleFavorite = () => {
-		console.log(sessionStorage.getItem("favorites"));
-
-		sessionStorage.getItem("favorites").length > 0
-			? setFavorites(sessionStorage.getItem("favorites"))
-			: true;
-		for (let i = 0; i < favorites.length; i++) {
-			console.log(`IDs : ${favorites[i].id} , ${id}`);
-			if (favorites[i].id === id) {
-				delete favorites[i];
-				sessionStorage.setItem("favorites", JSON.stringify(favorites));
-				updateFavorites(
-					sessionStorage.getItem("id"),
-					sessionStorage.getItem("favorites"),
-				);
-				console.log(favorites);
-				return;
+		let isRemoved = false;
+		for (const f in favorites) {
+			if (movie.id === favorites[f].id) {
+				favorites.splice(f, 1);
+				isRemoved = true;
+				setIsInFaveList(false)
 			}
 		}
-		favorites.push(movie);
+		if (!isRemoved) {
+			favorites.push(movie);
+			setIsInFaveList(true)
+		}
+		console.log(`Removed from favorites : ${isRemoved}`)
+
+		updateFavorites(sessionStorage.getItem("id"), movie);
 		sessionStorage.setItem("favorites", JSON.stringify(favorites));
-		updateFavorites(
-			sessionStorage.getItem("id"),
-			sessionStorage.getItem("favorites"),
-		);
-		console.log(favorites);
 	};
 
-	console.log(movie.status);
 	return (
 		<Stack sx={{ textAlign: "left" }}>
 			<div
@@ -124,15 +141,15 @@ const Detail = () => {
 			</div>
 			<br />
 			{sessionStorage.length > 0 ? (
-				<Box sx={{display:"flex", flexDirection:"row"}}>
+				<Box sx={{ display: "flex", flexDirection: "row" }}>
 					<Button
 						startIcon={<AddIcon />}
 						variant="outlined"
 						sx={{
-							padding:"16px",
-							margin:"0px 16px 0px 8px",
+							padding: "16px",
+							margin: "0px 16px 0px 8px",
 							fontSize: "12px",
-							backgroundColor: "#28427B",
+							backgroundColor: isInWatchlist ? "green" :"#28427B",
 							color: "white",
 							opacity: 0.6,
 							outlineColor: "#213547",
@@ -146,9 +163,9 @@ const Detail = () => {
 						startIcon={<FavoriteIcon />}
 						variant="outlined"
 						sx={{
-							margin:"0px 16px 0px 8px",
+							margin: "0px 16px 0px 8px",
 							fontSize: "12px",
-							backgroundColor: "#28427B",
+							backgroundColor:  isInFaveList ? "green" :"#28427B",
 							color: "white",
 							opacity: 0.6,
 							outlineColor: "#213547",

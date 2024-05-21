@@ -47,9 +47,6 @@ export const getOneMovie = async (id, setMovie) => {
 	const options = {
 		method: "GET",
 	};
-	console.log(
-		`https://api.themoviedb.org/3/movie/${id}?language=fr-FR&api_key=${process.env.API_KEY}`,
-	);
 	const response = await fetch(url, options);
 	const data = await response.json();
 	setMovie(data);

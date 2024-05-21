@@ -11,12 +11,13 @@ const Card = ({ movie }) => {
 		getGenres(setGenres);
 	}, []);
 
-	if (movieGenres.length < 1) {
-		for (let i = 0; i < genres.length; i++) {
-			for (let j = 0; j < 3; j++) {
-				if (movie.genre_ids[j] === genres[i].id) {
-					movieGenres.push(`${genres[i].name}\n`);
-				} else {
+	if (movie.genre_ids) {
+		if (movieGenres.length < 1) {
+			for (let i = 0; i < genres.length; i++) {
+				for (let j = 0; j < 3; j++) {
+					if (movie.genre_ids[j] === genres[i].id) {
+						movieGenres.push(`${genres[i].name}\n`);
+					}
 				}
 			}
 		}
@@ -44,7 +45,7 @@ const Card = ({ movie }) => {
 			<Stack
 				sx={{
 					textTransform: "uppercase",
-					height: "112px",
+					height: "130px",
 					color: "#E5E7EB",
 					backgroundColor: "#202126",
 					padding: "8px",
@@ -52,9 +53,22 @@ const Card = ({ movie }) => {
 					borderBottomRightRadius: "0.5rem",
 				}}
 			>
-				<a href={`./film/${movie.id}`}>{movie.title.length >27 ?`${movie.title.substring(0, 26)}...`:movie.title}</a>
+				<a href={`../film/${movie.id}`}>
+					{movie.title.length > 27
+						? `${movie.title.substring(0, 26)}...`
+						: movie.title}
+				</a>
 				<hr style={{ width: "160px" }} color="#374151" />
-				<span style={{ textTransform: "none" }}>{movieGenres}</span>
+				<div>
+					{movieGenres.map((genre) => {
+						return (
+							<>
+								<span style={{ textTransform: "none" }}>{genre}</span>
+								<br />
+							</>
+						);
+					})}
+				</div>
 			</Stack>
 		</Stack>
 	);
