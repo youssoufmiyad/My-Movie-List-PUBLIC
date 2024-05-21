@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getOneMovie, getUsers, getVideos } from "../utils/fetchData";
+import {
+	getOneMovie,
+	getOneUser,
+	getUsers,
+	getVideos,
+} from "../utils/fetchData";
 import { Button, Stack, Box, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -17,10 +22,13 @@ const Detail = () => {
 	const [watchlist, setWatchlist] = useState([]);
 	const [favorites, setFavorites] = useState([]);
 	const [videos, setVideos] = useState([]);
+
+	const [user, setUser] = useState();
 	const [users, setUsers] = useState([]);
 
 	const [isInWatchlist, setIsInWatchlist] = useState(false);
 	const [isInFaveList, setIsInFaveList] = useState(false);
+	const [hasReview, setHasReview] = useState(false);
 
 	useEffect(() => {
 		getOneMovie(id, setMovie);
@@ -28,6 +36,12 @@ const Detail = () => {
 	}, [id]);
 
 	useEffect(() => {
+		if (sessionStorage.length > 0) {
+			getOneUser(setUser, sessionStorage.getItem("id"));
+			console.log(sessionStorage.getItem("id"));
+			console.log(user);
+		}
+
 		getUsers(setUsers);
 
 		setWatchlist(JSON.parse(sessionStorage.getItem("watchlist")));
@@ -53,6 +67,18 @@ const Detail = () => {
 		}
 		setIsInFaveList(false);
 	}, [favorites, movie]);
+
+	useEffect(() => {
+		if (sessionStorage.length > 0 && user) {
+			for (const r in user.reviews) {
+				if (user.reviews[r].movieId === movie.id) {
+					setHasReview(true);
+					return;
+				}
+			}
+			setHasReview(false);
+		}
+	}, [user, movie]);
 
 	useEffect(() => {
 		console.log("isIn :");
@@ -221,17 +247,25 @@ const Detail = () => {
 				</Box>
 			)}
 			<br />
-			{sessionStorage.length > 0 ? <NewReview movie={movie} /> : false}
+			{sessionStorage.length > 0 ? (
+				!hasReview ? (
+					<NewReview movie={movie} />
+				) : (
+					false
+				)
+			) : (
+				false
+			)}
 			<br />
-			{sessionStorage.length > 0
-				? users.map((u) => {
-						for (const r in u.reviews) {
-							if (u.reviews[r].movieId === movie.id) {
-								return <Review username={u.username} review={u.reviews[r].content} />;
-							}
-						}
-				  })
-				: false}
+			{users.map((u) => {
+				for (const r in u.reviews) {
+					if (u.reviews[r].movieId === movie.id) {
+						return (
+							<Review username={u.username} review={u.reviews[r].content} />
+						);
+					}
+				}
+			})}
 		</Stack>
 	);
 };
