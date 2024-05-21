@@ -30,7 +30,7 @@ export const getMoviesInDateRange = async (
 	const url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}${
 		from != null ? `&primary_release_date.gte=${from}` : ""
 	}${to != null ? `&primary_release_date.lte=${to}` : ""}&sort_by=${
-		order != null | order !== "" ? order : "primary_release_date.desc"
+		(order != null) | (order !== "") ? order : "primary_release_date.desc"
 	}&api_key=${process.env.API_KEY}`;
 
 	const options = {
@@ -78,8 +78,7 @@ export const getVideos = async (id, setVideos) => {
 };
 
 export const getGenres = async (setGenres) => {
-	const url =
-		`https://api.themoviedb.org/3/genre/movie/list?language=fr&api_key=${process.env.API_KEY}`;
+	const url = `https://api.themoviedb.org/3/genre/movie/list?language=fr&api_key=${process.env.API_KEY}`;
 	const options = {
 		method: "GET",
 	};
@@ -176,10 +175,12 @@ export const getOneUser = async (setUser, id) => {
 	};
 	const response = await fetch(url, options);
 	const data = await response.json();
-	if (!data.message) {
-		setUser(data);
-	} else {
-		setUser(null);
+	if (setUser !== null) {
+		if (!data.message) {
+			setUser(data);
+		} else {
+			setUser(null);
+		}
 	}
 
 	return data;

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getOneMovie, getVideos } from "../utils/fetchData";
+import { getOneMovie, getUsers, getVideos } from "../utils/fetchData";
 import { Button, Stack, Box, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LinearProgress from "@mui/material/LinearProgress";
 import Placeholder from "../assets/backdrop_placeholder.png";
 import { updateFavorites, updateWatchlist } from "../utils/lists";
+import NewReview from "../components/NewReview";
+import Review from "../components/Review";
 
 const Detail = () => {
 	const { id } = useParams();
@@ -15,11 +17,10 @@ const Detail = () => {
 	const [watchlist, setWatchlist] = useState([]);
 	const [favorites, setFavorites] = useState([]);
 	const [videos, setVideos] = useState([]);
-
+	const [users, setUsers] = useState([]);
 
 	const [isInWatchlist, setIsInWatchlist] = useState(false);
-	const [isInFaveList, setIsInFaveList] = useState(false)
-
+	const [isInFaveList, setIsInFaveList] = useState(false);
 
 	useEffect(() => {
 		getOneMovie(id, setMovie);
@@ -27,34 +28,31 @@ const Detail = () => {
 	}, [id]);
 
 	useEffect(() => {
-		setWatchlist(JSON.parse(sessionStorage.getItem("watchlist")))
-		setFavorites(JSON.parse(sessionStorage.getItem("favorites")))
+		getUsers(setUsers);
+
+		setWatchlist(JSON.parse(sessionStorage.getItem("watchlist")));
+		setFavorites(JSON.parse(sessionStorage.getItem("favorites")));
 	}, []);
 
 	useEffect(() => {
 		for (const w in watchlist) {
-			if(watchlist[w].id === movie.id){
-				setIsInWatchlist(true)
-				return
+			if (watchlist[w].id === movie.id) {
+				setIsInWatchlist(true);
+				return;
 			}
-			
 		}
-		setIsInWatchlist(false)
-
+		setIsInWatchlist(false);
 	}, [watchlist, movie]);
 
 	useEffect(() => {
 		for (const f in favorites) {
-			if(favorites[f].id === movie.id){
-				setIsInFaveList(true)
-				return
+			if (favorites[f].id === movie.id) {
+				setIsInFaveList(true);
+				return;
 			}
-			
 		}
-		setIsInFaveList(false)
-
+		setIsInFaveList(false);
 	}, [favorites, movie]);
-
 
 	useEffect(() => {
 		console.log("isIn :");
@@ -64,16 +62,16 @@ const Detail = () => {
 	const toggleWatchlist = () => {
 		let isRemoved = false;
 		for (const w in watchlist) {
-			console.log(`w : ${w}`)
+			console.log(`w : ${w}`);
 			if (movie.id === watchlist[w].id) {
 				watchlist.splice(w, 1);
 				isRemoved = true;
-				setIsInWatchlist(false)
+				setIsInWatchlist(false);
 			}
 		}
 		if (!isRemoved) {
 			watchlist.push(movie);
-			setIsInWatchlist(true)
+			setIsInWatchlist(true);
 		}
 		updateWatchlist(sessionStorage.getItem("id"), movie);
 
@@ -86,14 +84,14 @@ const Detail = () => {
 			if (movie.id === favorites[f].id) {
 				favorites.splice(f, 1);
 				isRemoved = true;
-				setIsInFaveList(false)
+				setIsInFaveList(false);
 			}
 		}
 		if (!isRemoved) {
 			favorites.push(movie);
-			setIsInFaveList(true)
+			setIsInFaveList(true);
 		}
-		console.log(`Removed from favorites : ${isRemoved}`)
+		console.log(`Removed from favorites : ${isRemoved}`);
 
 		updateFavorites(sessionStorage.getItem("id"), movie);
 		sessionStorage.setItem("favorites", JSON.stringify(favorites));
@@ -149,7 +147,7 @@ const Detail = () => {
 							padding: "16px",
 							margin: "0px 16px 0px 8px",
 							fontSize: "12px",
-							backgroundColor: isInWatchlist ? "green" :"#28427B",
+							backgroundColor: isInWatchlist ? "green" : "#28427B",
 							color: "white",
 							opacity: 0.6,
 							outlineColor: "#213547",
@@ -165,7 +163,7 @@ const Detail = () => {
 						sx={{
 							margin: "0px 16px 0px 8px",
 							fontSize: "12px",
-							backgroundColor:  isInFaveList ? "green" :"#28427B",
+							backgroundColor: isInFaveList ? "green" : "#28427B",
 							color: "white",
 							opacity: 0.6,
 							outlineColor: "#213547",
@@ -223,6 +221,17 @@ const Detail = () => {
 				</Box>
 			)}
 			<br />
+			{sessionStorage.length > 0 ? <NewReview movie={movie} /> : false}
+			<br />
+			{sessionStorage.length > 0
+				? users.map((u) => {
+						for (const r in u.reviews) {
+							if (u.reviews[r].movieId === movie.id) {
+								return <Review username={u.username} review={u.reviews[r].content} />;
+							}
+						}
+				  })
+				: false}
 		</Stack>
 	);
 };
