@@ -25,7 +25,7 @@ const Home = () => {
 				{trendingMovies.results ? (
 					<Section
 						title={"En ce moment au cinéma"}
-						movies={trendingMovies.results.slice(0, 6)}
+						movies={trendingMovies.results.slice(0, 10)}
 					/>
 				) : (
 					false
@@ -33,7 +33,7 @@ const Home = () => {
 
 				<Section
 					title={"Acclamés par la critique"}
-					movies={topRatedMovies.results.slice(0, 6)}
+					movies={topRatedMovies.results.slice(0, 10)}
 				/>
 			</div>
 		);
