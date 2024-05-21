@@ -93,6 +93,10 @@ const Register = () => {
 						setUsername(e.target.value);
 					}}
 					helperText={usernameError}
+					sx={{
+						input: { backgroundColor: "#202126", color: "#BDBCBD" },
+						label: { color: "#FFF" },
+					}}
 				/>
 
 				<TextField
@@ -104,6 +108,10 @@ const Register = () => {
 						setEmail(e.target.value);
 					}}
 					helperText={emailError}
+					sx={{
+						input: { backgroundColor: "#202126", color: "#BDBCBD" },
+						label: { color: "#FFF" },
+					}}
 				/>
 
 				<TextField
@@ -118,6 +126,10 @@ const Register = () => {
 						setPassword(e.target.value);
 					}}
 					helperText={passwordError}
+					sx={{
+						input: { backgroundColor: "#202126", color: "#BDBCBD" },
+						label: { color: "#FFF" },
+					}}
 				/>
 
 				<TextField
@@ -134,6 +146,10 @@ const Register = () => {
 						setConfirmPassword(e.target.value);
 					}}
 					helperText={confirmPasswordError}
+					sx={{
+						input: { backgroundColor: "#202126", color: "#BDBCBD" },
+						label: { color: "#FFF" },
+					}}
 				/>
 
 				<Button
@@ -147,10 +163,16 @@ const Register = () => {
 							? false
 							: true
 					}
+					sx={{
+						backgroundColor: "#202126",
+						color: "#BDBCBD",
+					}}
 				>
 					Submit
 				</Button>
 			</Stack>
+			<br />
+			Déja membre ? <a href="../login"> Connectez vous</a>
 		</Stack>
 	);
 };

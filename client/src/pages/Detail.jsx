@@ -38,8 +38,6 @@ const Detail = () => {
 	useEffect(() => {
 		if (sessionStorage.length > 0) {
 			getOneUser(setUser, sessionStorage.getItem("id"));
-			console.log(sessionStorage.getItem("id"));
-			console.log(user);
 		}
 
 		getUsers(setUsers);

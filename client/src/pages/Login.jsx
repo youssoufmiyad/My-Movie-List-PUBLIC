@@ -7,6 +7,21 @@ const Login = ({ users }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
+	const themeOptions = {
+		palette: {
+			mode: "dark",
+			primary: {
+				main: "#3f51b5",
+			},
+			secondary: {
+				main: "#f50057",
+			},
+			background: {
+				paper: "#202126",
+				default: "#121212",
+			},
+		},
+	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log(
@@ -68,6 +83,10 @@ const Login = ({ users }) => {
 					onChange={(e) => {
 						setEmail(e.target.value);
 					}}
+					sx={{
+						input: { backgroundColor: "#202126", color: "#BDBCBD" },
+						label: { color: "#FFF" },
+					}}
 				/>
 
 				<TextField
@@ -78,11 +97,23 @@ const Login = ({ users }) => {
 					onChange={(e) => {
 						setPassword(e.target.value);
 					}}
+					sx={{
+						input: { backgroundColor: "#202126", color: "#BDBCBD" },
+						label: { color: "#FFF" },
+					}}
 				/>
-				<Button type="button" onClick={handleSubmit}>
+				<Button
+					type="button"
+					onClick={handleSubmit}
+					sx={{
+						backgroundColor: "#202126", color: "#BDBCBD" 
+					}}
+				>
 					Submit
 				</Button>
 			</Stack>
+			<br />
+			Pas encore de compte ? <a href="../register"> Inscrivez vous</a>
 		</Stack>
 	);
 };
