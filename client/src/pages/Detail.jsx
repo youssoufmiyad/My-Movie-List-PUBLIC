@@ -12,44 +12,69 @@ const Detail = () => {
 	const { id } = useParams();
 
 	const [movie, setMovie] = useState([]);
-	let [watchlist, setWatchlist] = useState([]);
+	const [watchlist, setWatchlist] = useState([]);
 	const [favorites, setFavorites] = useState([]);
 	const [videos, setVideos] = useState([]);
+
+	const [idx, setIdx] = useState(-1);
+
+	const [isInWatchlist, setIsInWatchlist] = useState(false);
 
 	useEffect(() => {
 		getOneMovie(id, setMovie);
 		getVideos(id, setVideos);
 	}, [id]);
-	console.log(videos);
 
-	const toggleWatchlist = () => {
-		sessionStorage.getItem("watchlist").length > 0
-			? setWatchlist(sessionStorage.getItem("watchlist"))
-			: true;
-		let idx = -1;
-		if (watchlist) {
-			for (let i = 0; i < watchlist.length; i++) {
-				if (watchlist[i].id === id) {
-					idx = i;
-					break;
+	useEffect(() => {
+		if (sessionStorage.length > 0) {
+			JSON.parse(sessionStorage.getItem("watchlist")).length > 0
+				? setWatchlist(JSON.parse(sessionStorage.getItem("watchlist")))
+				: true;
+
+			if (watchlist) {
+				for (let i = 0; i < watchlist.length; i++) {
+					if (watchlist[i].id === id) {
+						console.log("IN ALREADY");
+						setIdx(i);
+						setIsInWatchlist(true);
+						break;
+					}
+					console.log("NOT EQUAL");
 				}
 			}
 		}
+	}, [id]);
 
+	useEffect(() => {
+		console.log("IDX :");
+		console.log(idx);
+	}, [idx]);
+
+	useEffect(() => {
+		console.log("isIn :");
+		console.log(isInWatchlist);
+	}, [isInWatchlist]);
+
+	const toggleWatchlist = () => {
 		if (idx !== -1) {
 			const newWatchlist = watchlist;
+			console.log("WATCHLIST SKI :");
 			for (let i = 0; i < watchlist.length; i++) {
-				if (i !== idx) {
-					newWatchlist.push(watchlist[i]);
-				}
+				// if (i !== idx && watchlist[i].id !== movie.id) {
+				// 	newWatchlist.push(watchlist[i]);
+				// }else{
+				// 	alert("Already saved on watchlist")
+				// }
+				console.log(watchlist[i]);
 			}
-			watchlist = newWatchlist;
+			setWatchlist(newWatchlist);
 		} else {
 			watchlist.push(movie);
 		}
 
-		// sessionStorage.setItem("watchlist", watchlist);
+		console.log(`IDX : ${idx}`);
 		updateWatchlist(sessionStorage.getItem("id"), watchlist);
+		sessionStorage.setItem("watchlist", JSON.stringify(watchlist));
 		console.log(watchlist);
 	};
 
@@ -81,7 +106,6 @@ const Detail = () => {
 		console.log(favorites);
 	};
 
-	console.log(movie.status);
 	return (
 		<Stack sx={{ textAlign: "left" }}>
 			<div
@@ -124,13 +148,13 @@ const Detail = () => {
 			</div>
 			<br />
 			{sessionStorage.length > 0 ? (
-				<Box sx={{display:"flex", flexDirection:"row"}}>
+				<Box sx={{ display: "flex", flexDirection: "row" }}>
 					<Button
-						startIcon={<AddIcon />}
+						startIcon={!isInWatchlist ? <AddIcon /> : <FavoriteIcon />}
 						variant="outlined"
 						sx={{
-							padding:"16px",
-							margin:"0px 16px 0px 8px",
+							padding: "16px",
+							margin: "0px 16px 0px 8px",
 							fontSize: "12px",
 							backgroundColor: "#28427B",
 							color: "white",
@@ -146,7 +170,7 @@ const Detail = () => {
 						startIcon={<FavoriteIcon />}
 						variant="outlined"
 						sx={{
-							margin:"0px 16px 0px 8px",
+							margin: "0px 16px 0px 8px",
 							fontSize: "12px",
 							backgroundColor: "#28427B",
 							color: "white",

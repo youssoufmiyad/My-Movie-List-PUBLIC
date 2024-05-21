@@ -89,6 +89,14 @@ router.patch("/:id", getUser, async (req, res) => {
 		res.user.comments = req.body.comments;
 	}
 	if (req.body.watchlist != null) {
+		for (w in res.user.watchlist){
+			console.log(res.user.watchlist[w])
+			if (req.body.watchlist[req.body.watchlist.length-1].id === res.user.watchlist[w].id) {
+				console.log("ALREADY IN WATCHLIST")
+				res.status(400).json({message : "ALREADY IN WATCHLIST"})
+				return
+			}
+		}
 		res.user.watchlist = req.body.watchlist;
 	}
 	if (req.body.favorites != null) {
