@@ -24,17 +24,10 @@ const Login = ({ users }) => {
 	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(
-			`Email : ${email} hashed password : ${hashPassword(
-				password,
-			)} password : ${password}`,
-		);
 		let userExist = false;
 		let actualUser;
 		// Identification
-		console.log(users);
 		for (let i = 0; i < users.length; i++) {
-			console.log("mail : ", users[i]);
 			if (users[i].email === email) {
 				userExist = true;
 				actualUser = users[i];
@@ -52,8 +45,6 @@ const Login = ({ users }) => {
 
 		// Authentification
 		if (hashPassword(password) === actualUser.password) {
-			console.log("correct password");
-			alert("USER IS CORRECT");
 
 			connexion(actualUser);
 		} else {

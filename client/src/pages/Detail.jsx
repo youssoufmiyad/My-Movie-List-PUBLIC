@@ -259,7 +259,7 @@ const Detail = () => {
 				for (const r in u.reviews) {
 					if (u.reviews[r].movieId === movie.id) {
 						return (
-							<Review username={u.username} review={u.reviews[r].content} />
+							<Review user={u} review={u.reviews[r].content} />
 						);
 					}
 				}

@@ -134,22 +134,22 @@ const Profile = () => {
 						display: "inline-block",
 					}}
 				>
-					<a href="./" style={{ padding: 5 }}>
+					<a href={`./${id}`} style={{ padding: 5 }}>
 						Profile
 					</a>
-					<a href="./activity" style={{ padding: 5 }}>
+					<a href={`./${id}/activity`} style={{ padding: 5 }}>
 						Activity
 					</a>
-					<a href="./watchlist" style={{ padding: 5 }}>
+					<a href={`./${id}/watchlist`} style={{ padding: 5 }}>
 						Watchlist
 					</a>
-					<a href="./favorite" style={{ padding: 5 }}>
+					<a href={`./${id}/favorite`} style={{ padding: 5 }}>
 						Favorite
 					</a>
-					<a href="./rates" style={{ padding: 5 }}>
+					<a href={`./${id}/rates`} style={{ padding: 5 }}>
 						Rates
 					</a>
-					<a href="./comments" style={{ padding: 5 }}>
+					<a href={`./${id}/comments`} style={{ padding: 5 }}>
 						Comments
 					</a>
 				</Box>
