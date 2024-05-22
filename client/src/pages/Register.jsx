@@ -74,7 +74,7 @@ const Register = () => {
 					fontSize: "32px",
 				}}
 			>
-				REGISTER FORM
+				INSCRIPTION
 			</Typography>
 			<Stack
 				className="form"
@@ -87,7 +87,7 @@ const Register = () => {
 						(usernameError === "") | (usernameError.length < 1) ? false : true
 					}
 					id="filled-basic"
-					label="username"
+					label="nom d'utilisateur"
 					variant="filled"
 					onChange={(e) => {
 						setUsername(e.target.value);
@@ -119,7 +119,7 @@ const Register = () => {
 						(passwordError === "") | (passwordError.length < 1) ? false : true
 					}
 					id="filled-basic"
-					label="password"
+					label="mot de passe"
 					type="password"
 					variant="filled"
 					onChange={(e) => {
@@ -139,7 +139,7 @@ const Register = () => {
 							: true
 					}
 					id="filled-basic"
-					label="confirm password"
+					label="confirmer le mot de passe"
 					type="password"
 					variant="filled"
 					onChange={(e) => {
@@ -168,7 +168,7 @@ const Register = () => {
 						color: "#BDBCBD",
 					}}
 				>
-					Submit
+					S'inscrire
 				</Button>
 			</Stack>
 			<br />

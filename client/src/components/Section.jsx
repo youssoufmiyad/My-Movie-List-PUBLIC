@@ -14,9 +14,7 @@ const Section = ({ title, movies }) => {
 				}}
 			>
 				<h2>{title}</h2>
-				<div
-					style={{ overflow: "auto", width: "1200px" }}
-				>
+				<div style={{ overflow: "auto", width: "1200px" }}>
 					<Box sx={{ display: "flex", flexDirection: "row" }}>
 						{movies.map((movie) => {
 							return (
@@ -29,6 +27,22 @@ const Section = ({ title, movies }) => {
 								</>
 							);
 						})}
+						<a href="../film">
+							<Stack
+								sx={{
+									width: "176px",
+									height: "356px",
+									borderRadius: "0.5rem",
+									backgroundColor: "#202126",
+									textAlign:"center",
+									justifyContent:"center",
+									outline: "#374151 2px solid",
+									margin: "4px",
+								}}
+							>
+								Voir tout
+							</Stack>
+						</a>
 					</Box>
 				</div>
 			</Stack>

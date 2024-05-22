@@ -22,7 +22,6 @@ const List = () => {
 	const [queryMovies, setQueryMovies] = useState([]);
 	const [sortMethod, setSortMethod] = useState("");
 
-
 	const [page, setPage] = useState(1);
 
 	const currentDate = new Date();
@@ -75,6 +74,12 @@ const List = () => {
 					label="trier par ordre..."
 					onChange={(e) => {
 						setSortMethod(e.target.value);
+					}}
+					sx={{
+						backgroundColor: "#202126",
+						color: "#BDBCBD",
+						root: { color: "#FFF" },
+						inputLabelRoot: { color: "#FFF" },
 					}}
 				>
 					<MenuItem value="">

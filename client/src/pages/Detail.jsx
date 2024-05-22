@@ -14,6 +14,7 @@ import Placeholder from "../assets/backdrop_placeholder.png";
 import { updateFavorites, updateWatchlist } from "../utils/lists";
 import NewReview from "../components/NewReview";
 import Review from "../components/Review";
+import Credit from "../components/Credit";
 
 const Detail = () => {
 	const { id } = useParams();
@@ -244,6 +245,8 @@ const Detail = () => {
 					<LinearProgress />
 				</Box>
 			)}
+			<br />
+			<Credit movie={movie}/>
 			<br />
 			{sessionStorage.length > 0 ? (
 				!hasReview ? (

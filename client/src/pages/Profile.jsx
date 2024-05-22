@@ -138,26 +138,20 @@ const Profile = () => {
 						Profile
 					</a>
 					<a href={`./${id}/activity`} style={{ padding: 5 }}>
-						Activity
+						Activité
 					</a>
 					<a href={`./${id}/watchlist`} style={{ padding: 5 }}>
 						Watchlist
 					</a>
 					<a href={`./${id}/favorite`} style={{ padding: 5 }}>
-						Favorite
-					</a>
-					<a href={`./${id}/rates`} style={{ padding: 5 }}>
-						Rates
+						Favoris
 					</a>
 					<a href={`./${id}/comments`} style={{ padding: 5 }}>
-						Comments
+						Critiques
 					</a>
 				</Box>
 
 				<ProfileCaroussel user={user} />
-				{/* <Section title={"Watchlist"} movies={user.watchlist}/>
-				<br />
-				<Section title={"Favorites"} movies={user.favorites}/> */}
 			</Stack>
 		);
 	}

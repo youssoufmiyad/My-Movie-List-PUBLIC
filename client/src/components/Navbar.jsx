@@ -37,7 +37,7 @@ const Navbar = () => {
 			{sessionStorage.getItem("id") ? (
 				<>
 					<button type="button" onClick={deconnexion} style={{ margin: "6px" }}>
-						disconnect
+						DECONNEXION
 					</button>
 					<ProfilePic user={user} size={40} />
 				</>
@@ -50,7 +50,7 @@ const Navbar = () => {
 					}}
 					style={{ margin: "6px" }}
 				>
-					login
+					CONNEXION
 				</button>
 			)}
 			<br />

@@ -7,21 +7,6 @@ const Login = ({ users }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const themeOptions = {
-		palette: {
-			mode: "dark",
-			primary: {
-				main: "#3f51b5",
-			},
-			secondary: {
-				main: "#f50057",
-			},
-			background: {
-				paper: "#202126",
-				default: "#121212",
-			},
-		},
-	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		let userExist = false;
@@ -59,7 +44,7 @@ const Login = ({ users }) => {
 					fontSize: "32px",
 				}}
 			>
-				LOGIN FORM
+				CONNEXION
 			</Typography>
 			<Stack
 				className="form"
@@ -82,7 +67,7 @@ const Login = ({ users }) => {
 
 				<TextField
 					id="filled-basic"
-					label="password"
+					label="mot de passe"
 					type="password"
 					variant="filled"
 					onChange={(e) => {
@@ -100,7 +85,7 @@ const Login = ({ users }) => {
 						backgroundColor: "#202126", color: "#BDBCBD" 
 					}}
 				>
-					Submit
+					Se connecter
 				</Button>
 			</Stack>
 			<br />

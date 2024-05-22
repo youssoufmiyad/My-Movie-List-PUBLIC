@@ -1,5 +1,4 @@
 import React from "react";
-import { Stack } from "@mui/material";
 
 const StarProfilePic = ({ star, size }) => {
 	return (

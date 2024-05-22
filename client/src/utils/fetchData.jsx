@@ -61,7 +61,9 @@ export const getMovieCredits = async (id, setCast, setCrew) => {
 	const response = await fetch(url, options);
 	const data = await response.json();
 	setCast(data.cast);
-	setCrew(data.crew);
+	if (setCrew) {
+		setCrew(data.crew);
+	}
 	return data;
 };
 

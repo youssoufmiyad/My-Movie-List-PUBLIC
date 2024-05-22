@@ -18,7 +18,7 @@ const ProfileCaroussel = ({ user }) => {
 						textAlign: "left",
 					}}
 				>
-					Favorite films
+					Films favoris
 				</Typography>
 				<div style={{ overflow: "auto", width: "1200px" }}>
 					<Box sx={{ display: "flex", flexDirection: "row" }}>
@@ -48,7 +48,7 @@ const ProfileCaroussel = ({ user }) => {
 						textAlign: "left",
 					}}
 				>
-					In {user.username}'s watchlist
+					Dans la watchlist de {user.username}
 				</Typography>
 				<div style={{ overflow: "auto", width: "1200px" }}>
 					<Box sx={{ display: "flex", flexDirection: "row" }}>
