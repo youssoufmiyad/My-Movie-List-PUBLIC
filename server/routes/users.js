@@ -47,7 +47,7 @@ router.post("/", async (req, res) => {
 		email: req.body.email,
 		password: req.body.password,
 		rates: req.body.rates,
-		comments: req.body.comments,
+		reviews: req.body.reviews,
 		watchlist: req.body.watchlist,
 		favorite: req.body.favorites,
 	});
@@ -85,8 +85,8 @@ router.patch("/:id", getUser, async (req, res) => {
 	if (req.body.rates != null) {
 		res.user.rates = req.body.rates;
 	}
-	if (req.body.comments != null) {
-		res.user.comments = req.body.comments;
+	if (req.body.reviews != null) {
+		res.user.reviews = req.body.reviews;
 	}
 	if (req.body.watchlist != null) {
 		let isRemoved = false;

@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
 			default: {},
 		},
 	],
-	comments: [
+	reviews: [
 		{
 			type: Object,
 			required: true,
