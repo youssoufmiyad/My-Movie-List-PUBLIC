@@ -10,12 +10,12 @@
     - Tri par ordre alphabétique :white_check_mark:
     - Tri par notes :white_check_mark:
     - Tri par popularité :white_check_mark:
-- Gestion d'utilisateur :construction:
+- Gestion d'utilisateur :white_check_mark:
     - Identification :white_check_mark:
     - Authentification :white_check_mark:
     - Session :white_check_mark:
-    - Watchlist :hourglass_flowing_sand:
-    - Critiques :hourglass_flowing_sand:
+    - Watchlist :white_check_mark:
+    - Critiques :white_check_mark:
 - Profils :white_check_mark:
     - Différent roles (acteur, réalisateur, directeur, etc...) :white_check_mark:
     - Films sur lesquelles ils ont travaillés :white_check_mark:
