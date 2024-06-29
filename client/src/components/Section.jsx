@@ -1,50 +1,84 @@
-import React, { useState, Suspense, lazy } from "react";
-import { Stack, Box } from "@mui/material";
+import React, { useState, Suspense, lazy, useRef } from "react";
+import { Stack, Box, Button } from "@mui/material";
 import CardLoading from "./CardLoading";
+import { handleScroll } from "../utils/handleScroll";
 
 const Card = lazy(() => import("./Card"));
 
 const Section = ({ title, movies }) => {
+	const [scrollPosition, setScrollPosition] = useState(0);
+	const containerRef = useRef();
+	const ITEM_WIDTH = 200;
 	if (movies) {
 		return (
 			<Stack
+				className="section"
 				sx={{
 					alignItems: "center",
 					textTransform: "uppercase",
 				}}
 			>
 				<h2>{title}</h2>
-				<div style={{ overflow: "auto", width: "1200px" }}>
-					<Box sx={{ display: "flex", flexDirection: "row" }}>
-						{movies.map((movie) => {
-							return (
-								<>
-									<Suspense fallback={<CardLoading />}>
-										<Card movie={movie} />
-										<br />
-									</Suspense>
-									<br />
-								</>
+				<Stack sx={{ flexDirection: "row" }}>
+					<Button
+						onClick={() => {
+							handleScroll(
+								-ITEM_WIDTH,
+								containerRef,
+								scrollPosition,
+								setScrollPosition,
 							);
-						})}
-						<a href="../film">
-							<Stack
-								sx={{
-									width: "176px",
-									height: "356px",
-									borderRadius: "0.5rem",
-									backgroundColor: "#202126",
-									textAlign:"center",
-									justifyContent:"center",
-									outline: "#374151 2px solid",
-									margin: "4px",
-								}}
-							>
-								Voir tout
-							</Stack>
-						</a>
-					</Box>
-				</div>
+						}}
+					>
+						{"<"}
+					</Button>
+					<Stack
+						style={{ overflow: "auto", width: "1200px", scrollBehavior:"smooth" }}
+						ref={containerRef}
+					>
+						<Box sx={{ display: "flex", direction: "row" }}>
+							{movies.map((movie) => {
+								return (
+									<>
+										<Suspense fallback={<CardLoading />}>
+											<Card movie={movie} />
+											<br />
+										</Suspense>
+										<br />
+									</>
+								);
+							})}
+							<a href="../film">
+								<Stack
+									sx={{
+										width: "176px",
+										height: "356px",
+										borderRadius: "0.5rem",
+										backgroundColor: "#202126",
+										textAlign: "center",
+										justifyContent: "center",
+										outline: "#374151 2px solid",
+										margin: "4px",
+									}}
+								>
+									Voir tout
+								</Stack>
+							</a>
+						</Box>
+					</Stack>
+					<Button
+						onClick={() => {
+							handleScroll(
+								ITEM_WIDTH,
+								containerRef,
+								scrollPosition,
+								setScrollPosition,
+							);
+						}}
+					>
+						{">"}
+					</Button>
+				</Stack>
 			</Stack>
 		);
 	}

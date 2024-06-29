@@ -11,6 +11,7 @@ import {
 import { useParams } from "react-router-dom";
 import ProfileCaroussel from "../components/ProfileCaroussel";
 import Section from "../components/Section";
+import { handleScroll } from "../utils/handleScroll";
 
 const PROFILE_ID_REGEX = /^[0-9]{1,10}$/;
 const ITEM_WIDTH = 700;
@@ -23,18 +24,6 @@ const Profile = () => {
 	const [user, setUser] = useState(null);
 	const [apparitions, setApparitions] = useState([]);
 	const [images, setImages] = useState();
-
-	// Function to handle scrolling when the button is clicked
-	const handleScroll = (scrollAmount) => {
-		// Calculate the new scroll position
-		const newScrollPosition = scrollPosition + scrollAmount;
-
-		// Update the state with the new scroll position
-		setScrollPosition(newScrollPosition);
-
-		// Access the container element and set its scrollLeft property
-		containerRef.current.scrollLeft = newScrollPosition;
-	};
 
 	useEffect(() => {
 		if (PROFILE_ID_REGEX.test(id)) {
@@ -102,10 +91,30 @@ const Profile = () => {
 						</div>
 					</div>
 					<div className="action-btns">
-						<button type="button" onClick={() => handleScroll(-ITEM_WIDTH)}>
+						<button
+							type="button"
+							onClick={() =>
+								handleScroll(
+									-ITEM_WIDTH,
+									containerRef,
+									scrollPosition,
+									setScrollPosition,
+								)
+							}
+						>
 							Scroll Left
 						</button>
-						<button type="button" onClick={() => handleScroll(ITEM_WIDTH)}>
+						<button
+							type="button"
+							onClick={() =>
+								handleScroll(
+									ITEM_WIDTH,
+									containerRef,
+									scrollPosition,
+									setScrollPosition,
+								)
+							}
+						>
 							Scroll Right
 						</button>
 					</div>
