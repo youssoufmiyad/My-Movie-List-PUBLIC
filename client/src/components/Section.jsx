@@ -8,7 +8,8 @@ const Card = lazy(() => import("./Card"));
 const Section = ({ title, movies }) => {
 	const [scrollPosition, setScrollPosition] = useState(0);
 	const containerRef = useRef();
-	const ITEM_WIDTH = 200;
+	const ITEM_WIDTH = 250;
+	console.log(scrollPosition)
 	if (movies) {
 		return (
 			<Stack
@@ -33,8 +34,13 @@ const Section = ({ title, movies }) => {
 						{"<"}
 					</Button>
 					<Stack
-						style={{ overflow: "auto", width: "1200px", scrollBehavior:"smooth" }}
+						style={{
+							overflow: "hidden",
+							width: "1200px",
+							scrollBehavior: "smooth",
+						}}
 						ref={containerRef}
+						onScroll={(e)=>{setScrollPosition(e.target.scrollLeft)}}
 					>
 						<Box sx={{ display: "flex", direction: "row" }}>
 							{movies.map((movie) => {
@@ -67,6 +73,7 @@ const Section = ({ title, movies }) => {
 						</Box>
 					</Stack>
 					<Button
+						disabled={scrollPosition < 800 ? false : true}
 						onClick={() => {
 							handleScroll(
 								ITEM_WIDTH,
